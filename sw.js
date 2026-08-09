@@ -1,7 +1,7 @@
 /* 몽골 홉스골 일정 — 오프라인 캐시
    페이지가 파일 하나라 캐시할 것도 하나뿐이다.
    전략: 캐시 우선(오프라인 보장) + 뒤에서 조용히 갱신(stale-while-revalidate) */
-var CACHE = 'mn-trip-v4';
+var CACHE = 'mn-trip-v5';
 var PAGE = './';
 
 self.addEventListener('install', function(e){

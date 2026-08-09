@@ -243,19 +243,24 @@
 
   /* ---------- 상단 탭 ---------- */
   .tabs{
-    position:sticky; top:6px; z-index:60; display:grid; grid-template-columns:1fr 1fr; gap:6px;
-    padding:6px; margin:0 0 12px; border-radius:16px;
-    background:rgba(255,255,255,.82); border:1px solid var(--edge);
+    position:sticky; top:5px; z-index:60; display:grid; grid-template-columns:1fr 1fr; gap:4px;
+    padding:4px; margin:0 0 10px; border-radius:13px;
+    background:rgba(255,255,255,.85); border:1px solid var(--edge);
     -webkit-backdrop-filter:blur(16px) saturate(150%); backdrop-filter:blur(16px) saturate(150%);
-    box-shadow:0 10px 26px -16px rgba(90,96,150,.7);
+    box-shadow:0 8px 20px -14px rgba(90,96,150,.7);
   }
   .tab{
-    font:inherit; font-size:13.5px; font-weight:800; color:var(--ink2); cursor:pointer;
-    border:0; border-radius:12px; padding:11px 8px; background:transparent; min-height:46px;
+    font:inherit; font-size:13px; font-weight:800; color:var(--ink2); cursor:pointer;
+    border:0; border-radius:10px; padding:0 8px; background:transparent; min-height:36px;
     transition:background .18s, color .18s, box-shadow .18s; letter-spacing:-.02em;
-    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px;
+    display:flex; flex-direction:row; align-items:center; justify-content:center; gap:5px;
+    min-width:0; overflow:hidden;
   }
-  .tab small{font-size:10.5px; font-weight:700; opacity:.85; letter-spacing:-.01em}
+  .tab small{
+    font-size:10.5px; font-weight:750; opacity:.8; letter-spacing:-.01em;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0;
+  }
+  @media (max-width:340px){ .tab small{display:none} }
   .tab:active{transform:scale(.985)}
   .tab.on{color:#fff; background:linear-gradient(135deg,#f5b183,#ee9490);
           box-shadow:0 8px 18px -9px rgba(238,148,144,.95)}
@@ -377,7 +382,7 @@
   </header>
 
   <nav class="tabs" id="tabs">
-    <button class="tab on" data-tab="trip" type="button">여행 일정<small>지도 · 6일 코스</small></button>
+    <button class="tab on" data-tab="trip" type="button">여행 일정<small>지도·6일</small></button>
     <button class="tab" data-tab="money" type="button">공금 가계부<small id="tabBal">기록 없음</small></button>
   </nav>
 
