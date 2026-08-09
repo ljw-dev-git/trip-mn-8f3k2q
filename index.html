@@ -35,6 +35,7 @@
     --r:20px;
   }
   *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+  input,select,textarea,button{max-width:100%}
   html{-webkit-text-size-adjust:100%}
   body{
     margin:0; color:var(--ink); background:var(--paper);
@@ -240,6 +241,27 @@
   footer{margin-top:18px; text-align:center; font-size:11px; color:var(--muted); line-height:1.7}
 
 
+  /* ---------- 상단 탭 ---------- */
+  .tabs{
+    position:sticky; top:6px; z-index:60; display:grid; grid-template-columns:1fr 1fr; gap:6px;
+    padding:6px; margin:0 0 12px; border-radius:16px;
+    background:rgba(255,255,255,.82); border:1px solid var(--edge);
+    -webkit-backdrop-filter:blur(16px) saturate(150%); backdrop-filter:blur(16px) saturate(150%);
+    box-shadow:0 10px 26px -16px rgba(90,96,150,.7);
+  }
+  .tab{
+    font:inherit; font-size:13.5px; font-weight:800; color:var(--ink2); cursor:pointer;
+    border:0; border-radius:12px; padding:11px 8px; background:transparent; min-height:46px;
+    transition:background .18s, color .18s, box-shadow .18s; letter-spacing:-.02em;
+    display:flex; flex-direction:column; align-items:center; justify-content:center; gap:1px;
+  }
+  .tab small{font-size:10.5px; font-weight:700; opacity:.85; letter-spacing:-.01em}
+  .tab:active{transform:scale(.985)}
+  .tab.on{color:#fff; background:linear-gradient(135deg,#f5b183,#ee9490);
+          box-shadow:0 8px 18px -9px rgba(238,148,144,.95)}
+  .tab[data-tab="money"].on{background:linear-gradient(135deg,#8fb8e8,#ac9df1);
+          box-shadow:0 8px 18px -9px rgba(150,145,235,.95)}
+
   /* ---------- 공금 가계부 ---------- */
   .lgbanner{display:none; align-items:flex-start; gap:9px; padding:11px 16px; font-size:12px;
             background:rgba(172,157,241,.16); border-bottom:1px solid var(--edge); color:var(--ink2)}
@@ -267,17 +289,19 @@
 
   .lgform{display:grid; gap:7px; padding:12px 14px; border-top:1px solid var(--edge);
           background:rgba(255,255,255,.42)}
-  .lgrow{display:flex; gap:7px}
+  .lgrow{display:grid; gap:7px}
+  .lgrow.r1{grid-template-columns:minmax(0,1fr) minmax(0,1.1fr)}
+  .lgrow.r2{grid-template-columns:minmax(0,1fr) minmax(0,68px) minmax(0,84px)}
+  @media (max-width:330px){ .lgrow.r1{grid-template-columns:minmax(0,1fr)} }
   .lgform input, .lgform select, .lgform button{
     font:inherit; font-size:13.5px; border-radius:11px; border:1px solid var(--edge2);
-    padding:10px 11px; background:#fff; color:var(--ink); min-height:44px; min-width:0;
+    padding:10px 9px; background:#fff; color:var(--ink); min-height:44px;
+    width:100%; min-width:0; max-width:100%;
   }
   .lgform input:focus, .lgform select:focus{outline:2px solid rgba(172,157,241,.55); outline-offset:-1px}
-  .lgform .desc{flex:1 1 auto}
-  .lgform .date{flex:0 0 auto; width:140px}
-  .lgform .amt{flex:1 1 auto; text-align:right; font-weight:800; letter-spacing:-.02em}
-  .lgform .cur{flex:0 0 auto; width:74px; text-align:center; font-weight:750}
-  .lgform .kind{flex:0 0 auto; width:92px; font-weight:750}
+  .lgform .amt{text-align:right; font-weight:800; letter-spacing:-.02em}
+  .lgform .cur{text-align:center; font-weight:750; padding-left:2px; padding-right:2px}
+  .lgform .kind{font-weight:750; padding-left:4px; padding-right:2px}
   .lgform .add{
     width:100%; border:0; color:#fff; font-weight:800; font-size:14.5px; cursor:pointer;
     background:linear-gradient(135deg,#f5b183,#ee9490); box-shadow:0 8px 18px -9px rgba(238,148,144,.95);
@@ -296,11 +320,11 @@
   }
   .lgday h4 .dsum{margin-left:auto; color:var(--k2); font-weight:800}
   .lgitem{
-    display:flex; align-items:center; gap:10px; padding:10px 11px; border-radius:12px;
-    background:#fff; border:1px solid var(--edge); margin-bottom:6px;
+    display:grid; grid-template-columns:minmax(0,1fr) auto 30px; align-items:center; gap:10px;
+    padding:10px 11px; border-radius:12px; background:#fff; border:1px solid var(--edge); margin-bottom:6px;
   }
-  .lgitem .nm{flex:1 1 auto; font-size:13.5px; font-weight:700; min-width:0; overflow-wrap:anywhere}
-  .lgitem .va{flex:0 0 auto; text-align:right; font-size:13.5px; font-weight:800; letter-spacing:-.02em}
+  .lgitem .nm{font-size:13.5px; font-weight:700; min-width:0; overflow-wrap:anywhere}
+  .lgitem .va{text-align:right; font-size:13.5px; font-weight:800; letter-spacing:-.02em; white-space:nowrap}
   .lgitem .va small{display:block; font-size:10.5px; font-weight:600; color:var(--muted); letter-spacing:0}
   .lgitem.in .va{color:var(--k4)}
   .lgitem .del{
@@ -351,6 +375,13 @@
     </div>
     <span class="dcount" id="dcount"></span>
   </header>
+
+  <nav class="tabs" id="tabs">
+    <button class="tab on" data-tab="trip" type="button">여행 일정<small>지도 · 6일 코스</small></button>
+    <button class="tab" data-tab="money" type="button">공금 가계부<small id="tabBal">기록 없음</small></button>
+  </nav>
+
+  <div id="tab-trip">
 
   <!-- ============ MAP ============ -->
   <section class="card rv">
@@ -611,6 +642,9 @@
   </section>
 
 
+  </div>
+
+  <div id="tab-money" hidden>
   <!-- ============ 공금 가계부 ============ -->
   <section class="card rv" id="ledger">
     <div class="shead">
@@ -638,11 +672,11 @@
     </dl>
 
     <div class="lgform">
-      <div class="lgrow">
+      <div class="lgrow r1">
         <input class="date" type="date" id="lgDate" aria-label="날짜">
         <input class="desc" type="text" id="lgDesc" placeholder="내용 (예: 마트 장보기)" aria-label="내용" maxlength="40">
       </div>
-      <div class="lgrow">
+      <div class="lgrow r2">
         <input class="amt" type="number" id="lgAmt" inputmode="numeric" step="1" min="0" placeholder="금액" aria-label="금액">
         <select class="cur" id="lgCur" aria-label="통화"><option value="MNT">₮</option><option value="KRW">₩</option></select>
         <select class="kind" id="lgKind" aria-label="구분"><option value="out">지출</option><option value="in">입금</option></select>
@@ -664,6 +698,7 @@
     <div class="lgmsg" id="lgMsg"></div>
     <textarea class="lgout" id="lgOutBox" readonly rows="6"></textarea>
   </section>
+  </div>
 
   <footer>
     노라투어 확정서 기준 · 지도의 위치는 실제 위·경도 좌표<br>
@@ -994,6 +1029,7 @@
     rv.forEach(function(el){ el.classList.add('in'); });
   }
   if(!('ontouchstart' in window) && hint) hint.textContent = '드래그로 이동 · 휠로 확대';
+  window.__mapFit = function(){ lastK = -1; fit(false); };
 })();
 </script>
 
@@ -1090,6 +1126,7 @@
     el('lgBalKrw').textContent = '약 ' + fmtW(krw(bal));
     el('lgIn').textContent = fmtT(tin);
     el('lgOut').textContent = fmtT(tout);
+    if(window.__tabBal) window.__tabBal(data.items.length ? '남은 ' + fmtT(bal) : '기록 없음');
 
     if(!data.items.length){
       listEl.innerHTML = '<div class="lgempty">아직 기록이 없습니다.<br>공금을 <b>입금</b>으로 먼저 넣어보세요.</div>';
@@ -1320,6 +1357,56 @@
     });
   })();
 })();
+</script>
+
+<script>
+/* ===================== 상단 탭 + 오프라인 캐시 ===================== */
+(function(){
+  var tabs = document.getElementById('tabs');
+  var panes = { trip: document.getElementById('tab-trip'), money: document.getElementById('tab-money') };
+  var KEY = 'mnTrip.tab';
+
+  function show(name, remember){
+    if(!panes[name]) name = 'trip';
+    Object.keys(panes).forEach(function(k){ panes[k].hidden = (k !== name); });
+    [].slice.call(tabs.querySelectorAll('.tab')).forEach(function(b){
+      b.classList.toggle('on', b.dataset.tab === name);
+      b.setAttribute('aria-selected', b.dataset.tab === name ? 'true' : 'false');
+    });
+    /* 숨겨져 있던 동안 못 뜬 등장 효과를 즉시 적용 */
+    [].slice.call(panes[name].querySelectorAll('.rv')).forEach(function(el){ el.classList.add('in'); });
+    /* 지도는 크기를 다시 재야 정확히 맞음 */
+    if(name === 'trip' && window.__mapFit) setTimeout(window.__mapFit, 30);
+    if(remember){
+      try{ localStorage.setItem(KEY, name); }catch(e){}
+      var t = tabs.getBoundingClientRect().top + window.pageYOffset - 6;
+      if(window.pageYOffset > t) window.scrollTo({ top: t, behavior: 'smooth' });
+    }
+  }
+  tabs.addEventListener('click', function(e){
+    var b = e.target.closest('.tab'); if(!b) return;
+    show(b.dataset.tab, true);
+  });
+
+  /* 공유 링크로 들어오면 가계부부터 보여준다 */
+  var shared = /[#&]b=/.test(location.hash);
+  var saved = null;
+  try{ saved = localStorage.getItem(KEY); }catch(e){}
+  show(shared ? 'money' : (saved || 'trip'), false);
+
+  /* 탭에 잔액 미리보기 */
+  window.__tabBal = function(text){
+    var el = document.getElementById('tabBal');
+    if(el) el.textContent = text;
+  };
+})();
+
+/* 오프라인에서도 열리도록 페이지를 캐시 (https 에서만 동작) */
+if('serviceWorker' in navigator && /^https:$/.test(location.protocol)){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  });
+}
 </script>
 </body>
 </html>
