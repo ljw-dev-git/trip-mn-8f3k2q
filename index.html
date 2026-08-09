@@ -223,6 +223,20 @@
   @media (hover:hover) and (min-width:820px){
     .day:hover{transform:translateY(-3px); box-shadow:0 22px 34px -24px rgba(90,96,150,.7)}
   }
+
+  /* ---------- 일차별 테마 아이콘 ---------- */
+  .dayicon{
+    position:absolute; top:11px; right:11px; width:32px; height:32px; border-radius:50%;
+    display:flex; align-items:center; justify-content:center; pointer-events:none;
+    background:var(--dp); border:1px solid var(--dc); color:var(--dk);
+  }
+  .dayicon svg{
+    width:19px; height:19px; display:block; fill:none; stroke:currentColor;
+    stroke-width:1.7; stroke-linecap:round; stroke-linejoin:round;
+  }
+  .day.on .dayicon{background:#fff}
+  .dhead{padding-right:38px}
+
   .dn{text-align:center; padding-top:2px}
   .dn b{display:block; font-size:22px; font-weight:850; line-height:1; color:var(--dk)}
   .dn span{display:block; font-size:10.5px; color:var(--muted); font-weight:700; margin-top:5px}
@@ -575,6 +589,7 @@
     <div class="days" id="days">
 
       <article class="day" data-day="1" style="--dc:var(--m1);--dk:var(--k1);--dp:var(--p1)" tabindex="0">
+        <span class="dayicon" aria-hidden="true"><svg viewBox="0 0 24 24"><circle cx="17.4" cy="6.4" r="2.5"/><path d="M2.5 18.6h19"/><path d="M3 18.6c2.1-5.4 5.4-5.4 7.5 0"/><path d="M9.6 18.6c2.4-4.3 6-4.3 8.4 0"/></svg></span>
         <div class="dn"><b>1</b><span>8/11<br>화</span></div>
         <div>
           <div class="dhead"><h3>공항 → 미니사막</h3><span class="dist">325 km</span></div>
@@ -591,6 +606,7 @@
       </article>
 
       <article class="day" data-day="2" style="--dc:var(--m2);--dk:var(--k2);--dp:var(--p2)" tabindex="0">
+        <span class="dayicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2.5 19.2h19"/><path d="M4.8 19.2L9.4 10.2 12 12.6l2.6-2.4 4.6 9"/></svg></span>
         <div class="dn"><b>2</b><span>8/12<br>수</span></div>
         <div>
           <div class="dhead"><h3>미니사막 → 볼강</h3><span class="dist">350 km</span></div>
@@ -606,6 +622,7 @@
       </article>
 
       <article class="day" data-day="3" style="--dc:var(--m3);--dk:var(--k3);--dp:var(--p3)" tabindex="0">
+        <span class="dayicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 3.4v10.6"/><path d="M13.1 5.6l5 8.4h-5z"/><path d="M3.4 16.8h17.2l-2.3 3.9H5.7z"/></svg></span>
         <div class="dn"><b>3</b><span>8/13<br>목</span></div>
         <div>
           <div class="dhead"><h3>볼강 → 홉스골 호수</h3><span class="dist">300 km</span></div>
@@ -622,6 +639,7 @@
       </article>
 
       <article class="day" data-day="4" style="--dc:var(--m4);--dk:var(--k4);--dp:var(--p4)" tabindex="0">
+        <span class="dayicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 8q2.25-2.4 4.5 0t4.5 0 4.5 0 4.5 0"/><path d="M3 13q2.25-2.4 4.5 0t4.5 0 4.5 0 4.5 0"/><path d="M3 18q2.25-2.4 4.5 0t4.5 0 4.5 0 4.5 0"/></svg></span>
         <div class="dn"><b>4</b><span>8/14<br>금</span></div>
         <div>
           <div class="dhead"><h3>홉스골 호수 종일</h3><span class="dist">이동 없음</span></div>
@@ -637,6 +655,7 @@
       </article>
 
       <article class="day" data-day="5" style="--dc:var(--m5);--dk:var(--k5);--dp:var(--p5)" tabindex="0">
+        <span class="dayicon" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="4.6" y="3.6" width="14.8" height="12.4" rx="3.4"/><path d="M4.6 9.6h14.8"/><path d="M7.6 16v1.7M16.4 16v1.7"/><circle cx="8.6" cy="19.2" r="1.5"/><circle cx="15.4" cy="19.2" r="1.5"/></svg></span>
         <div class="dn"><b>5</b><span>8/15<br>토</span></div>
         <div>
           <div class="dhead"><h3>홉스골 → 에르데네트</h3><span class="dist">525 km</span></div>
@@ -652,6 +671,7 @@
       </article>
 
       <article class="day" data-day="6" style="--dc:var(--m6);--dk:var(--k6);--dp:var(--p6)" tabindex="0">
+        <span class="dayicon" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M20.6 3.4L3.2 10.1l7.3 2.6 2.6 7.3z"/><path d="M10.5 12.7l10.1-9.3"/></svg></span>
         <div class="dn"><b>6</b><span>8/16<br>일</span></div>
         <div>
           <div class="dhead"><h3>울란바타르 → 테를지 → 공항</h3><span class="dist">55 + 80 km</span></div>
