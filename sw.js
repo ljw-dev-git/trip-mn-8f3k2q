@@ -3,7 +3,7 @@
    문서(HTML): 네트워크 우선 + 2.5초 타임아웃 -> 캐시
      인터넷이 되면 열 때마다 최신본을 본다. 안 되면 즉시 캐시본으로 뜬다.
    정적 파일(아이콘/매니페스트): 캐시 우선 + 뒤에서 조용히 갱신          */
-var CACHE = 'mn-trip-v9';
+var CACHE = 'mn-trip-v10';
 var PAGE = './';
 var NET_TIMEOUT = 2500;
 var ASSETS = [PAGE, './index.html', './manifest.webmanifest',

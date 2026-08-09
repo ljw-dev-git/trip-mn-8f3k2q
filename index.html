@@ -287,7 +287,9 @@
             background:rgba(172,157,241,.16); border-bottom:1px solid var(--edge); color:var(--ink2)}
   .lgbanner.on{display:flex}
   .lgbanner b{color:var(--ink)}
-  .lgbanner button{margin-left:auto; flex:0 0 auto}
+  .lgbanner .lgbtns{margin-left:auto; flex:0 0 auto; display:flex; flex-direction:column; gap:5px}
+  .lgbanner button{white-space:nowrap}
+  .lgbanner button[hidden]{display:none}
 
   .bal{padding:16px 16px 4px; text-align:center}
   .bal .lab{font-size:11px; color:var(--muted); font-weight:700; letter-spacing:.06em}
@@ -680,8 +682,11 @@
     </div>
 
     <div class="lgbanner" id="lgBanner">
-      <span><b>공유된 기록</b>을 보고 있습니다. 여기서 수정해도 총무 기기에는 반영되지 않습니다.</span>
-      <button class="chip" id="lgAdopt" type="button">내 기기로 가져오기</button>
+      <span id="lgBanText"></span>
+      <span class="lgbtns">
+        <button class="chip" id="lgSwitch" type="button">내 기록 보기</button>
+        <button class="chip" id="lgAdopt" type="button">가져오기</button>
+      </span>
     </div>
 
     <div class="bal">
@@ -1233,8 +1238,8 @@
   function ensureWritable(){
     if(!readonly) return;
     readonly = false;
-    el('lgBanner').classList.remove('on');
-    try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
+    mineData = data;                 /* 보고 있던 공유본이 이제 내 기록이 된다 */
+    viewing = 'mine';
     say('공유받은 기록을 내 기기에 저장했습니다.');
   }
 
@@ -1251,7 +1256,7 @@
     });
     el('lgAmt').value = ''; el('lgDesc').value = '';
     el('lgKind').value = 'out';          /* 입금 뒤 실수로 또 입금되는 것 방지 */
-    save(); render();
+    save(); render(); banner();
     say('저장됨 · ' + data.items.length + '건');
   }
   el('lgAdd').addEventListener('click', add);
@@ -1390,29 +1395,66 @@
   });
 
   /* ---------- open a shared link ---------- */
+  /* ===== 내 기록 vs 공유받은 기록 =====
+     주소에 #b=... 가 남은 바로가기로 앱을 만들면 열 때마다 링크 속 옛 기록이
+     내 기록을 덮어쓰던 문제가 있었다. 이제 '내 기록'이 항상 우선이고
+     공유 기록은 원할 때만 들여다본다. */
+  var mineData = null, sharedData = null, viewing = 'mine';
+
+  function applyRate(){ el('lgRate').value = data.rate; }
+  function useMine(){
+    data = mineData; readonly = false; viewing = 'mine';
+    applyRate(); render(); banner();
+  }
+  function useShared(){
+    data = JSON.parse(JSON.stringify(sharedData)); readonly = true; viewing = 'shared';
+    applyRate(); render(); banner();
+  }
+  function banner(){
+    var box = el('lgBanner'), sw = el('lgSwitch'), ad = el('lgAdopt');
+    if(!sharedData){ box.classList.remove('on'); return; }
+    box.classList.add('on');
+    var sn = sharedData.items.length, mn = mineData.items.length;
+    if(viewing === 'shared'){
+      el('lgBanText').innerHTML = '<b>공유받은 기록 ' + sn + '건</b>을 보고 있습니다. ' +
+        '여기서 추가·삭제하면 내 기록으로 바뀝니다.';
+      sw.textContent = '내 기록 ' + mn + '건'; sw.hidden = false;
+      ad.hidden = false;
+    } else {
+      el('lgBanText').innerHTML = '내 기록 <b>' + mn + '건</b>을 쓰는 중입니다. ' +
+        '링크에 담겨온 기록 ' + sn + '건은 따로 볼 수 있습니다.';
+      sw.textContent = '공유 기록 ' + sn + '건'; sw.hidden = false;
+      ad.hidden = true;
+    }
+  }
+  el('lgSwitch').addEventListener('click', function(){
+    if(viewing === 'shared') useMine(); else useShared();
+  });
   el('lgAdopt').addEventListener('click', function(){
-    readonly = false;
-    el('lgBanner').classList.remove('on');
-    el('lgSaved').textContent = '이 기기에 자동 저장';
-    save(); say('내 기기에 저장했습니다.');
-    history.replaceState(null, '', location.pathname + location.search);
+    mineData = JSON.parse(JSON.stringify(sharedData));
+    data = mineData; readonly = false; viewing = 'mine';
+    save(); applyRate(); render(); banner();
+    say('공유받은 기록을 내 기기에 저장했습니다.');
   });
 
   load();
-  el('lgRate').value = data.rate;
+  mineData = data;
+  applyRate();
   window.__lgRefresh = render;   /* 탭 스크립트가 나중에 로드되므로 다시 그릴 수 있게 */
 
   (function(){
     var m = /[#&]b=([A-Za-z0-9\-_]+)/.exec(location.hash);
     if(!m){ render(); return; }
+    /* 해시는 한 번 읽고 주소에서 지운다 — 다음 실행 때 또 덮어쓰지 않도록 */
+    try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
     unpack(m[1]).then(function(arr){
-      data = expand(arr);
-      readonly = true;
-      el('lgBanner').classList.add('on');
-      el('lgSaved').textContent = '공유받은 기록 (읽기 전용)';
-      el('lgRate').value = data.rate;
-      render();
-      setTimeout(function(){ el('ledger').scrollIntoView({block:'start', behavior:'smooth'}); }, 400);
+      sharedData = expand(arr);
+      if(mineData.items.length){
+        useMine();                      /* 내 기록이 있으면 무조건 내 것 우선 */
+      } else {
+        useShared();
+        setTimeout(function(){ el('ledger').scrollIntoView({block:'start', behavior:'smooth'}); }, 400);
+      }
     }).catch(function(){
       render(); say('공유 링크를 읽지 못했습니다. 링크가 잘렸을 수 있습니다.');
     });
