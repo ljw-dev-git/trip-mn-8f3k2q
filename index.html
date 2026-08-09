@@ -683,7 +683,7 @@
         <input class="desc" type="text" id="lgDesc" placeholder="내용 (예: 마트 장보기)" aria-label="내용" maxlength="40">
       </div>
       <div class="lgrow r2">
-        <input class="amt" type="number" id="lgAmt" inputmode="numeric" step="1" min="0" placeholder="금액" aria-label="금액">
+        <input class="amt" type="text" id="lgAmt" inputmode="numeric" autocomplete="off" placeholder="금액" aria-label="금액">
         <select class="cur" id="lgCur" aria-label="통화"><option value="MNT">₮</option><option value="KRW">₩</option></select>
         <select class="kind" id="lgKind" aria-label="구분"><option value="out">지출</option><option value="in">입금</option></select>
       </div>
@@ -1187,8 +1187,24 @@
     this.value = data.rate; save(); render();
   });
 
+  function digits(v){ return String(v).replace(/[^0-9]/g, ''); }
+  (function(){
+    var box = el('lgAmt');
+    box.addEventListener('input', function(){
+      var caret = this.selectionStart || 0;
+      var kept = digits(this.value.slice(0, caret)).length;      /* 커서 앞 숫자 개수 */
+      var d = digits(this.value).slice(0, 12);
+      var out = d ? Number(d).toLocaleString('ko-KR') : '';
+      if(out === this.value) return;
+      this.value = out;
+      var pos = 0, n = 0;
+      while(pos < out.length && n < kept){ if(out.charCodeAt(pos) > 47 && out.charCodeAt(pos) < 58) n++; pos++; }
+      try{ this.setSelectionRange(pos, pos); }catch(e){}
+    });
+  })();
+
   function add(){
-    var a = +el('lgAmt').value;
+    var a = +digits(el('lgAmt').value);
     if(!a || a <= 0){ el('lgAmt').focus(); say('금액을 입력해 주세요.'); return; }
     data.items.push({
       d: el('lgDate').value || today(),
