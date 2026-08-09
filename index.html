@@ -239,6 +239,97 @@
 
   footer{margin-top:18px; text-align:center; font-size:11px; color:var(--muted); line-height:1.7}
 
+
+  /* ---------- 공금 가계부 ---------- */
+  .lgbanner{display:none; align-items:flex-start; gap:9px; padding:11px 16px; font-size:12px;
+            background:rgba(172,157,241,.16); border-bottom:1px solid var(--edge); color:var(--ink2)}
+  .lgbanner.on{display:flex}
+  .lgbanner b{color:var(--ink)}
+  .lgbanner button{margin-left:auto; flex:0 0 auto}
+
+  .bal{padding:16px 16px 4px; text-align:center}
+  .bal .lab{font-size:11px; color:var(--muted); font-weight:700; letter-spacing:.06em}
+  .bal .amt{font-size:clamp(28px,8vw,38px); font-weight:850; letter-spacing:-.03em; line-height:1.15; margin-top:2px}
+  .bal .amt.neg{color:#d0564f}
+  .bal .sub{font-size:13px; color:var(--ink2); font-weight:700; margin-top:1px}
+  .bal .rate{font-size:11px; color:var(--muted); margin-top:7px}
+  .bal .rate input{
+    width:74px; font:inherit; font-size:11.5px; font-weight:750; color:var(--ink); text-align:right;
+    border:1px solid var(--edge2); border-radius:8px; padding:3px 6px; background:rgba(255,255,255,.8);
+  }
+
+  .tot{display:grid; grid-template-columns:1fr 1fr; gap:8px; padding:10px 16px 14px}
+  .tot div{background:rgba(255,255,255,.7); border:1px solid var(--edge); border-radius:12px; padding:9px 11px}
+  .tot dt{font-size:10.5px; color:var(--muted); font-weight:700}
+  .tot dd{margin:2px 0 0; font-size:15px; font-weight:800}
+  .tot .in dd{color:var(--k4)}
+  .tot .out dd{color:var(--k2)}
+
+  .lgform{display:grid; gap:7px; padding:12px 14px; border-top:1px solid var(--edge);
+          background:rgba(255,255,255,.42)}
+  .lgrow{display:flex; gap:7px}
+  .lgform input, .lgform select, .lgform button{
+    font:inherit; font-size:13.5px; border-radius:11px; border:1px solid var(--edge2);
+    padding:10px 11px; background:#fff; color:var(--ink); min-height:44px; min-width:0;
+  }
+  .lgform input:focus, .lgform select:focus{outline:2px solid rgba(172,157,241,.55); outline-offset:-1px}
+  .lgform .desc{flex:1 1 auto}
+  .lgform .date{flex:0 0 auto; width:140px}
+  .lgform .amt{flex:1 1 auto; text-align:right; font-weight:800; letter-spacing:-.02em}
+  .lgform .cur{flex:0 0 auto; width:74px; text-align:center; font-weight:750}
+  .lgform .kind{flex:0 0 auto; width:92px; font-weight:750}
+  .lgform .add{
+    width:100%; border:0; color:#fff; font-weight:800; font-size:14.5px; cursor:pointer;
+    background:linear-gradient(135deg,#f5b183,#ee9490); box-shadow:0 8px 18px -9px rgba(238,148,144,.95);
+  }
+  .lgform .add:active{transform:scale(.97)}
+  .lghint{font-size:11px; color:var(--muted); padding:0 2px}
+
+  .lglist{padding:6px 10px 10px}
+  .lgday{margin-top:10px}
+  .lgday h4{
+    margin:0 0 6px; font-size:11.5px; font-weight:800; color:var(--ink2);
+    display:flex; align-items:center; gap:8px; padding:0 6px;
+  }
+  .lgday h4 .dchip{
+    font-size:10px; font-weight:850; color:#fff; border-radius:999px; padding:2px 7px; background:var(--dc,#b9c0d8);
+  }
+  .lgday h4 .dsum{margin-left:auto; color:var(--k2); font-weight:800}
+  .lgitem{
+    display:flex; align-items:center; gap:10px; padding:10px 11px; border-radius:12px;
+    background:#fff; border:1px solid var(--edge); margin-bottom:6px;
+  }
+  .lgitem .nm{flex:1 1 auto; font-size:13.5px; font-weight:700; min-width:0; overflow-wrap:anywhere}
+  .lgitem .va{flex:0 0 auto; text-align:right; font-size:13.5px; font-weight:800; letter-spacing:-.02em}
+  .lgitem .va small{display:block; font-size:10.5px; font-weight:600; color:var(--muted); letter-spacing:0}
+  .lgitem.in .va{color:var(--k4)}
+  .lgitem .del{
+    flex:0 0 auto; width:30px; height:30px; border-radius:9px; border:1px solid var(--edge);
+    background:rgba(255,255,255,.8); color:var(--muted); font:inherit; font-size:15px; line-height:1;
+    cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  .lgitem .del:active{background:#ffeceb; color:#d0564f}
+  .lgempty{padding:22px 16px; text-align:center; color:var(--muted); font-size:12.5px; line-height:1.9}
+
+  .lgtools{display:flex; flex-wrap:wrap; gap:7px; padding:12px 14px; border-top:1px solid var(--edge)}
+  .lgtools button{
+    flex:1 1 auto; font:inherit; font-size:12.5px; font-weight:750; color:var(--ink2); cursor:pointer;
+    border:1px solid var(--edge2); border-radius:11px; padding:11px 10px; background:rgba(255,255,255,.78);
+    min-height:44px;
+  }
+  .lgtools button:active{background:#fff}
+  .lgtools button.main{color:#fff; border-color:transparent; flex:1 1 100%;
+    background:linear-gradient(135deg,#8fb8e8,#ac9df1); box-shadow:0 8px 18px -9px rgba(140,140,230,.95)}
+  .lgtools button.danger{color:#c0564f; flex:0 0 auto; width:64px}
+  .lgmsg{padding:0 16px 14px; font-size:11.5px; color:var(--k5); font-weight:700; display:none}
+  .lgmsg.on{display:block}
+  .lgout{
+    width:100%; margin:0; padding:11px; font:inherit; font-size:11.5px; line-height:1.5;
+    border:1px solid var(--edge2); border-radius:11px; background:#fff; color:var(--ink2);
+    resize:vertical; min-height:96px; display:none;
+  }
+  .lgout.on{display:block}
+
   .rv{opacity:0; transform:translateY(18px)}
   .rv.in{opacity:1; transform:none; transition:opacity .6s ease, transform .6s cubic-bezier(.2,.7,.3,1)}
   @media (prefers-reduced-motion:reduce){
@@ -517,6 +608,61 @@
       </article>
     </div>
     <div class="legend"><span>※ 마트는 매일 방문 시간이 있습니다.</span></div>
+  </section>
+
+
+  <!-- ============ 공금 가계부 ============ -->
+  <section class="card rv" id="ledger">
+    <div class="shead">
+      <h2>공금 가계부</h2>
+      <p id="lgSaved">이 기기에 자동 저장</p>
+    </div>
+
+    <div class="lgbanner" id="lgBanner">
+      <span><b>공유된 기록</b>을 보고 있습니다. 여기서 수정해도 총무 기기에는 반영되지 않습니다.</span>
+      <button class="chip" id="lgAdopt" type="button">내 기기로 가져오기</button>
+    </div>
+
+    <div class="bal">
+      <div class="lab">남은 공금</div>
+      <div class="amt" id="lgBal">₮0</div>
+      <div class="sub" id="lgBalKrw">약 0원</div>
+      <div class="rate">환율 1,000₮ =
+        <input type="number" id="lgRate" inputmode="decimal" step="1" min="0" value="400"> 원
+      </div>
+    </div>
+
+    <dl class="tot">
+      <div class="in"><dt>공금 입금</dt><dd id="lgIn">₮0</dd></div>
+      <div class="out"><dt>지출 합계</dt><dd id="lgOut">₮0</dd></div>
+    </dl>
+
+    <div class="lgform">
+      <div class="lgrow">
+        <input class="date" type="date" id="lgDate" aria-label="날짜">
+        <input class="desc" type="text" id="lgDesc" placeholder="내용 (예: 마트 장보기)" aria-label="내용" maxlength="40">
+      </div>
+      <div class="lgrow">
+        <input class="amt" type="number" id="lgAmt" inputmode="numeric" step="1" min="0" placeholder="금액" aria-label="금액">
+        <select class="cur" id="lgCur" aria-label="통화"><option value="MNT">₮</option><option value="KRW">₩</option></select>
+        <select class="kind" id="lgKind" aria-label="구분"><option value="out">지출</option><option value="in">입금</option></select>
+      </div>
+      <button class="add" id="lgAdd" type="button">추가</button>
+      <div class="lghint">공금을 처음 걷었을 때는 <b>입금</b>으로 한 번 넣어두세요.</div>
+    </div>
+
+    <div class="lglist" id="lgList"></div>
+
+    <div class="lgtools">
+      <button class="main" id="lgShare" type="button">카톡으로 공유 (기록 전체)</button>
+      <button id="lgCopy" type="button">요약 복사</button>
+      <button id="lgBackup" type="button">백업 저장</button>
+      <button id="lgRestore" type="button">불러오기</button>
+      <button class="danger" id="lgClear" type="button">비우기</button>
+      <input type="file" id="lgFile" accept="application/json,.json" hidden>
+    </div>
+    <div class="lgmsg" id="lgMsg"></div>
+    <textarea class="lgout" id="lgOutBox" readonly rows="6"></textarea>
   </section>
 
   <footer>
@@ -876,6 +1022,303 @@
     link.rel = "manifest"; link.href = url;
     document.head.appendChild(link);
   }catch(e){ /* file:// 등에서 실패해도 페이지는 그대로 동작 */ }
+})();
+</script>
+
+<script>
+/* ===================== 공금 가계부 =====================
+   저장: localStorage (기기 1대, 오프라인 동작)
+   공유: 기록 전체를 URL 해시에 압축해 담아 전달 (서버로 전송되지 않음)      */
+(function(){
+  var KEY = 'mnTrip.ledger.v1';
+  var SHARE_BASE = 'https://ljw-dev-git.github.io/trip-mn-8f3k2q/';
+  var DAY1 = '2026-08-11', LASTDAY = '2026-08-16';
+
+  var el = function(id){ return document.getElementById(id); };
+  var listEl = el('lgList'), msgEl = el('lgMsg'), outBox = el('lgOutBox');
+  var readonly = false;
+
+  var data = { rate: 400, items: [] };   // rate: 1,000₮ 당 원화
+
+  /* ---------- storage ---------- */
+  function load(){
+    try{
+      var raw = localStorage.getItem(KEY);
+      if(raw){
+        var j = JSON.parse(raw);
+        if(j && j.items) data = { rate: +j.rate || 400, items: j.items };
+      }
+    }catch(e){}
+  }
+  function save(){
+    if(readonly) return;
+    try{ localStorage.setItem(KEY, JSON.stringify(data)); }catch(e){
+      say('저장 공간이 부족합니다. 오래된 항목을 지워주세요.');
+    }
+  }
+  if(navigator.storage && navigator.storage.persist) navigator.storage.persist().catch(function(){});
+
+  /* ---------- helpers ---------- */
+  function mnt(item){ return item.c === 'KRW' ? (item.a * 1000 / (data.rate || 400)) : item.a; }
+  function krw(v){ return v * (data.rate || 400) / 1000; }
+  function fmt(n){ return Math.round(n).toLocaleString('ko-KR'); }
+  function fmtT(n){ return '₮' + fmt(n); }
+  function fmtW(n){ return fmt(n) + '원'; }
+  function say(t){ msgEl.textContent = t; msgEl.classList.add('on');
+    clearTimeout(say._t); say._t = setTimeout(function(){ msgEl.classList.remove('on'); }, 4000); }
+  function dayNo(ds){
+    var a = new Date(DAY1 + 'T00:00:00'), b = new Date(ds + 'T00:00:00');
+    var n = Math.round((b - a) / 86400000) + 1;
+    return (n >= 1 && n <= 6) ? n : 0;
+  }
+  function today(){
+    var d = new Date(), p = function(x){ return (x < 10 ? '0' : '') + x; };
+    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+  }
+
+  /* ---------- render ---------- */
+  function render(){
+    var tin = 0, tout = 0;
+    data.items.forEach(function(it){
+      var v = mnt(it);
+      if(it.k === 'in') tin += v; else tout += v;
+    });
+    var bal = tin - tout;
+    var balEl = el('lgBal');
+    balEl.textContent = fmtT(bal);
+    balEl.classList.toggle('neg', bal < 0);
+    el('lgBalKrw').textContent = '약 ' + fmtW(krw(bal));
+    el('lgIn').textContent = fmtT(tin);
+    el('lgOut').textContent = fmtT(tout);
+
+    if(!data.items.length){
+      listEl.innerHTML = '<div class="lgempty">아직 기록이 없습니다.<br>공금을 <b>입금</b>으로 먼저 넣어보세요.</div>';
+      return;
+    }
+    var byDay = {};
+    data.items.forEach(function(it, i){ (byDay[it.d] = byDay[it.d] || []).push([it, i]); });
+    var dates = Object.keys(byDay).sort();
+    var html = '';
+    dates.forEach(function(ds){
+      var rows = byDay[ds], sum = 0;
+      rows.forEach(function(r){ if(r[0].k !== 'in') sum += mnt(r[0]); });
+      var n = dayNo(ds);
+      var d = new Date(ds + 'T00:00:00');
+      var w = ['일','월','화','수','목','금','토'][d.getDay()];
+      html += '<div class="lgday"' + (n ? ' style="--dc:var(--m' + n + ')"' : '') + '>';
+      html += '<h4>' + (n ? '<span class="dchip">' + n + '일차</span>' : '') +
+              '<span>' + (d.getMonth() + 1) + '/' + d.getDate() + ' ' + w + '</span>' +
+              (sum ? '<span class="dsum">-' + fmtT(sum) + '</span>' : '') + '</h4>';
+      rows.forEach(function(r){
+        var it = r[0], idx = r[1], v = mnt(it);
+        html += '<div class="lgitem ' + (it.k === 'in' ? 'in' : '') + '">' +
+                  '<span class="nm">' + esc(it.t || '(내용 없음)') + '</span>' +
+                  '<span class="va">' + (it.k === 'in' ? '+' : '-') + fmtT(v) +
+                    '<small>' + (it.c === 'KRW' ? '입력 ' + fmtW(it.a) : '약 ' + fmtW(krw(v))) + '</small>' +
+                  '</span>' +
+                  '<button class="del" type="button" data-i="' + idx + '" aria-label="삭제">×</button>' +
+                '</div>';
+      });
+      html += '</div>';
+    });
+    listEl.innerHTML = html;
+  }
+  function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
+  listEl.addEventListener('click', function(e){
+    var b = e.target.closest('.del');
+    if(!b) return;
+    data.items.splice(+b.dataset.i, 1);
+    save(); render();
+  });
+
+  /* ---------- input ---------- */
+  el('lgDate').value = (function(){
+    var t = today();
+    return (t < DAY1) ? DAY1 : (t > LASTDAY ? LASTDAY : t);
+  })();
+  el('lgRate').value = data.rate;
+  el('lgRate').addEventListener('change', function(){
+    data.rate = Math.max(1, +this.value || 400);
+    this.value = data.rate; save(); render();
+  });
+
+  function add(){
+    var a = +el('lgAmt').value;
+    if(!a || a <= 0){ el('lgAmt').focus(); say('금액을 입력해 주세요.'); return; }
+    data.items.push({
+      d: el('lgDate').value || today(),
+      t: el('lgDesc').value.trim(),
+      a: a,
+      c: el('lgCur').value,
+      k: el('lgKind').value
+    });
+    el('lgAmt').value = ''; el('lgDesc').value = '';
+    el('lgKind').value = 'out';          /* 입금 뒤 실수로 또 입금되는 것 방지 */
+    save(); render();
+  }
+  el('lgAdd').addEventListener('click', add);
+  [el('lgDesc'), el('lgAmt')].forEach(function(i){
+    i.addEventListener('keydown', function(e){ if(e.key === 'Enter'){ e.preventDefault(); add(); } });
+  });
+
+  /* ---------- share link (data lives in the URL hash) ---------- */
+  function b64u(bytes){
+    var s = '';
+    for(var i=0;i<bytes.length;i++) s += String.fromCharCode(bytes[i]);
+    return btoa(s).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+  }
+  function unb64u(str){
+    str = str.replace(/-/g,'+').replace(/_/g,'/');
+    while(str.length % 4) str += '=';
+    var bin = atob(str), out = new Uint8Array(bin.length);
+    for(var i=0;i<bin.length;i++) out[i] = bin.charCodeAt(i);
+    return out;
+  }
+  function compact(){
+    return [1, data.rate, data.items.map(function(it){
+      return [dayOff(it.d), it.t || '', it.a, it.c === 'KRW' ? 1 : 0, it.k === 'in' ? 1 : 0];
+    })];
+  }
+  function expand(arr){
+    return {
+      rate: +arr[1] || 400,
+      items: (arr[2] || []).map(function(r){
+        return { d: offDay(r[0]), t: r[1], a: +r[2], c: r[3] ? 'KRW' : 'MNT', k: r[4] ? 'in' : 'out' };
+      })
+    };
+  }
+  function dayOff(ds){
+    return Math.round((new Date(ds + 'T00:00:00') - new Date(DAY1 + 'T00:00:00')) / 86400000);
+  }
+  function offDay(n){
+    var d = new Date(new Date(DAY1 + 'T00:00:00').getTime() + n * 86400000);
+    var p = function(x){ return (x < 10 ? '0' : '') + x; };
+    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+  }
+  async function pack(){
+    var json = JSON.stringify(compact());
+    var bytes = new TextEncoder().encode(json);
+    if(window.CompressionStream){
+      try{
+        var cs = new CompressionStream('deflate-raw');
+        var buf = await new Response(new Blob([bytes]).stream().pipeThrough(cs)).arrayBuffer();
+        return 'z' + b64u(new Uint8Array(buf));
+      }catch(e){}
+    }
+    return 'j' + b64u(bytes);
+  }
+  async function unpack(code){
+    var tag = code[0], bytes = unb64u(code.slice(1));
+    if(tag === 'z'){
+      var ds = new DecompressionStream('deflate-raw');
+      var buf = await new Response(new Blob([bytes]).stream().pipeThrough(ds)).arrayBuffer();
+      bytes = new Uint8Array(buf);
+    }
+    return JSON.parse(new TextDecoder().decode(bytes));
+  }
+  function baseUrl(){
+    return /^https?:$/.test(location.protocol)
+      ? location.origin + location.pathname
+      : SHARE_BASE;
+  }
+  el('lgShare').addEventListener('click', async function(){
+    if(!data.items.length){ say('기록이 없습니다.'); return; }
+    var url = baseUrl() + '#b=' + await pack();
+    var title = '몽골 여행 공금 내역';
+    if(navigator.share){
+      try{ await navigator.share({ title: title, text: summary(), url: url }); return; }catch(e){ if(e && e.name === 'AbortError') return; }
+    }
+    copy(url, '공유 링크를 복사했습니다. 카톡에 붙여넣으세요.');
+  });
+
+  /* ---------- text summary / backup ---------- */
+  function summary(){
+    var tin = 0, tout = 0;
+    data.items.forEach(function(it){ var v = mnt(it); if(it.k === 'in') tin += v; else tout += v; });
+    var lines = ['[몽골 여행 공금 내역]', '남은 공금 ' + fmtT(tin - tout) + ' (약 ' + fmtW(krw(tin - tout)) + ')',
+                 '입금 ' + fmtT(tin) + ' / 지출 ' + fmtT(tout), ''];
+    var byDay = {};
+    data.items.forEach(function(it){ (byDay[it.d] = byDay[it.d] || []).push(it); });
+    Object.keys(byDay).sort().forEach(function(ds){
+      var n = dayNo(ds), d = new Date(ds + 'T00:00:00');
+      lines.push('· ' + (d.getMonth() + 1) + '/' + d.getDate() + (n ? ' (' + n + '일차)' : ''));
+      byDay[ds].forEach(function(it){
+        lines.push('   ' + (it.k === 'in' ? '+' : '-') + fmtT(mnt(it)) + '  ' + (it.t || '-'));
+      });
+    });
+    return lines.join('\n');
+  }
+  function copy(text, ok){
+    if(navigator.clipboard && navigator.clipboard.writeText){
+      navigator.clipboard.writeText(text).then(function(){ say(ok); }, function(){ showBox(text); });
+    } else showBox(text);
+  }
+  function showBox(text){
+    outBox.value = text; outBox.classList.add('on'); outBox.select();
+    say('아래 내용을 길게 눌러 복사하세요.');
+  }
+  el('lgCopy').addEventListener('click', function(){
+    if(!data.items.length){ say('기록이 없습니다.'); return; }
+    copy(summary(), '요약을 복사했습니다.');
+  });
+  el('lgBackup').addEventListener('click', function(){
+    var blob = new Blob([JSON.stringify(data, null, 1)], {type:'application/json'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'mongolia-ledger-' + today() + '.json';
+    document.body.appendChild(a); a.click(); a.remove();
+    say('백업 파일을 저장했습니다.');
+  });
+  el('lgRestore').addEventListener('click', function(){ el('lgFile').click(); });
+  el('lgFile').addEventListener('change', function(){
+    var f = this.files && this.files[0]; if(!f) return;
+    var r = new FileReader();
+    r.onload = function(){
+      try{
+        var j = JSON.parse(r.result);
+        if(!j || !j.items) throw 0;
+        data = { rate: +j.rate || 400, items: j.items };
+        readonly = false; el('lgBanner').classList.remove('on');
+        el('lgRate').value = data.rate;
+        save(); render(); say('백업을 불러왔습니다.');
+      }catch(e){ say('파일을 읽을 수 없습니다.'); }
+    };
+    r.readAsText(f); this.value = '';
+  });
+  el('lgClear').addEventListener('click', function(){
+    if(!data.items.length) return;
+    if(!confirm('기록을 모두 지웁니다. 되돌릴 수 없습니다.\n\n계속할까요?')) return;
+    data.items = []; save(); render(); say('모두 지웠습니다.');
+  });
+
+  /* ---------- open a shared link ---------- */
+  el('lgAdopt').addEventListener('click', function(){
+    readonly = false;
+    el('lgBanner').classList.remove('on');
+    el('lgSaved').textContent = '이 기기에 자동 저장';
+    save(); say('내 기기에 저장했습니다.');
+    history.replaceState(null, '', location.pathname + location.search);
+  });
+
+  load();
+  el('lgRate').value = data.rate;
+
+  (function(){
+    var m = /[#&]b=([A-Za-z0-9\-_]+)/.exec(location.hash);
+    if(!m){ render(); return; }
+    unpack(m[1]).then(function(arr){
+      data = expand(arr);
+      readonly = true;
+      el('lgBanner').classList.add('on');
+      el('lgSaved').textContent = '공유받은 기록 (읽기 전용)';
+      el('lgRate').value = data.rate;
+      render();
+      setTimeout(function(){ el('ledger').scrollIntoView({block:'start', behavior:'smooth'}); }, 400);
+    }).catch(function(){
+      render(); say('공유 링크를 읽지 못했습니다. 링크가 잘렸을 수 있습니다.');
+    });
+  })();
 })();
 </script>
 </body>
