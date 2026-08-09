@@ -1,14 +1,18 @@
 /* 몽골 홉스골 일정 — 오프라인 캐시
-   페이지가 파일 하나라 캐시할 것도 하나뿐이다.
-   전략: 캐시 우선(오프라인 보장) + 뒤에서 조용히 갱신(stale-while-revalidate) */
-var CACHE = 'mn-trip-v7';
+
+   문서(HTML): 네트워크 우선 + 2.5초 타임아웃 -> 캐시
+     인터넷이 되면 열 때마다 최신본을 본다. 안 되면 즉시 캐시본으로 뜬다.
+   정적 파일(아이콘/매니페스트): 캐시 우선 + 뒤에서 조용히 갱신          */
+var CACHE = 'mn-trip-v8';
 var PAGE = './';
+var NET_TIMEOUT = 2500;
+var ASSETS = [PAGE, './index.html', './manifest.webmanifest',
+              './icon-192.png', './icon-512.png', './icon-maskable-512.png'];
 
 self.addEventListener('install', function(e){
   e.waitUntil(
     caches.open(CACHE)
-      .then(function(c){ return c.addAll([PAGE, './index.html', './manifest.webmanifest',
-                       './icon-192.png', './icon-512.png', './icon-maskable-512.png']); })
+      .then(function(c){ return c.addAll(ASSETS); })
       .then(function(){ return self.skipWaiting(); })
   );
 });
@@ -23,28 +27,41 @@ self.addEventListener('activate', function(e){
   );
 });
 
+function fromCache(req){
+  return caches.match(req, {ignoreSearch:true}).then(function(hit){
+    return hit || caches.match(PAGE, {ignoreSearch:true});
+  });
+}
+
 self.addEventListener('fetch', function(e){
   var req = e.request;
   if(req.method !== 'GET') return;
+  if(new URL(req.url).origin !== location.origin) return;
 
-  var url = new URL(req.url);
-  if(url.origin !== location.origin) return;
-
-  /* 페이지 이동 요청은 항상 캐시된 문서로 응답 (해시가 달라도 동일 문서) */
+  /* --- 문서: 네트워크 우선 --- */
   if(req.mode === 'navigate'){
+    var net = fetch(req).then(function(res){
+      if(res && res.ok){
+        var copy = res.clone();
+        caches.open(CACHE).then(function(c){ c.put(PAGE, copy); });
+      }
+      return res;
+    }).catch(function(){ return null; });
+
+    var timeout = new Promise(function(resolve){
+      setTimeout(function(){ resolve(null); }, NET_TIMEOUT);
+    });
+
     e.respondWith(
-      caches.match(PAGE, {ignoreSearch:true})
-        .then(function(hit){
-          var net = fetch(req).then(function(res){
-            if(res && res.ok) caches.open(CACHE).then(function(c){ c.put(PAGE, res.clone()); });
-            return res;
-          }).catch(function(){ return hit; });
-          return hit || net;
-        })
+      Promise.race([net, timeout]).then(function(res){
+        if(res) return res;
+        return fromCache(req).then(function(hit){ return hit || net; });
+      })
     );
     return;
   }
 
+  /* --- 정적 파일: 캐시 우선 --- */
   e.respondWith(
     caches.match(req, {ignoreSearch:true}).then(function(hit){
       var net = fetch(req).then(function(res){

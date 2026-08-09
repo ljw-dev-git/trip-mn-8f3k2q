@@ -242,6 +242,20 @@
   footer{margin-top:18px; text-align:center; font-size:11px; color:var(--muted); line-height:1.7}
 
 
+  /* ---------- 인앱 브라우저 경고 ---------- */
+  .inapp{
+    display:none; gap:10px; align-items:flex-start; padding:12px 14px; margin:0 0 10px;
+    border-radius:14px; font-size:12.5px; line-height:1.55; color:#8a4b16;
+    background:rgba(245,183,120,.22); border:1px solid rgba(232,163,95,.5);
+  }
+  .inapp.on{display:flex}
+  .inapp b{color:#6d3a0f}
+  .inapp .go{
+    flex:0 0 auto; font:inherit; font-size:12px; font-weight:800; color:#fff; cursor:pointer;
+    border:0; border-radius:10px; padding:9px 12px; min-height:38px; white-space:nowrap;
+    background:linear-gradient(135deg,#f5b183,#ee9490);
+  }
+
   /* ---------- 상단 탭 ---------- */
   .tabs{
     position:sticky; top:5px; z-index:60; display:grid; grid-template-columns:1fr 1fr; gap:4px;
@@ -381,6 +395,13 @@
     </div>
     <span class="dcount" id="dcount"></span>
   </header>
+
+  <div class="inapp" id="inapp">
+    <span><b>카카오톡 등 앱 안의 브라우저</b>로 열렸습니다. 여기서 적은 가계부는
+      <b>이 브라우저에만</b> 저장되어 홈 화면 앱에서는 보이지 않고, 앱 설치도 안 됩니다.
+      크롬으로 열어서 사용하세요.</span>
+    <button class="go" id="inappGo" type="button">크롬으로 열기</button>
+  </div>
 
   <nav class="tabs" id="tabs">
     <button class="tab on" data-tab="trip" type="button">여행 일정<small>지도·6일</small></button>
@@ -1134,6 +1155,9 @@
     el('lgIn').textContent = fmtT(tin);
     el('lgOut').textContent = fmtT(tout);
     if(window.__tabBal) window.__tabBal(data.items.length ? '남은 ' + fmtT(bal) : '기록 없음');
+    el('lgSaved').textContent = readonly
+      ? '공유받은 기록 (읽기 전용)'
+      : (data.items.length ? '이 기기에 저장됨 · ' + data.items.length + '건' : '이 기기에 자동 저장');
 
     if(!data.items.length){
       listEl.innerHTML = '<div class="lgempty">아직 기록이 없습니다.<br>공금을 <b>입금</b>으로 먼저 넣어보세요.</div>';
@@ -1172,6 +1196,7 @@
   listEl.addEventListener('click', function(e){
     var b = e.target.closest('.del');
     if(!b) return;
+    ensureWritable();
     data.items.splice(+b.dataset.i, 1);
     save(); render();
   });
@@ -1203,9 +1228,20 @@
     });
   })();
 
+  /* 공유받은 기록을 보다가 직접 수정하면, 그 순간부터 내 기록으로 전환한다.
+     예전에는 읽기 전용이라 저장이 조용히 무시돼 입력이 사라졌다. */
+  function ensureWritable(){
+    if(!readonly) return;
+    readonly = false;
+    el('lgBanner').classList.remove('on');
+    try{ history.replaceState(null, '', location.pathname + location.search); }catch(e){}
+    say('공유받은 기록을 내 기기에 저장했습니다.');
+  }
+
   function add(){
     var a = +digits(el('lgAmt').value);
     if(!a || a <= 0){ el('lgAmt').focus(); say('금액을 입력해 주세요.'); return; }
+    ensureWritable();
     data.items.push({
       d: el('lgDate').value || today(),
       t: el('lgDesc').value.trim(),
@@ -1216,6 +1252,7 @@
     el('lgAmt').value = ''; el('lgDesc').value = '';
     el('lgKind').value = 'out';          /* 입금 뒤 실수로 또 입금되는 것 방지 */
     save(); render();
+    say('저장됨 · ' + data.items.length + '건');
   }
   el('lgAdd').addEventListener('click', add);
   [el('lgDesc'), el('lgAmt')].forEach(function(i){
@@ -1417,6 +1454,26 @@
   var saved = null;
   try{ saved = localStorage.getItem(KEY); }catch(e){}
   show(shared ? 'money' : (saved || 'trip'), false);
+
+  /* 앱 안의 브라우저(카카오톡 등)는 저장소가 따로 놀아서 미리 알려준다 */
+  (function(){
+    var ua = navigator.userAgent || '';
+    var inApp = /KAKAOTALK|NAVER\(inapp|Instagram|FBAN|FBAV|FB_IAB|Line\/|DaumApps|everytimeApp/i.test(ua)
+             || (/Android/.test(ua) && /;\s*wv\)/.test(ua));
+    if(/Android/.test(ua) && window.matchMedia('(display-mode: standalone)').matches) inApp = false;
+    if(!inApp) return;
+    var box = document.getElementById('inapp');
+    box.classList.add('on');
+    document.getElementById('inappGo').addEventListener('click', function(){
+      var bare = location.href.replace(/^https?:\/\//, '');
+      if(/Android/.test(ua)){
+        location.href = 'intent://' + bare + '#Intent;scheme=https;package=com.android.chrome;end';
+        return;
+      }
+      if(navigator.clipboard) navigator.clipboard.writeText(location.href);
+      alert('주소를 복사했습니다.\n브라우저(크롬/사파리)에 붙여넣어 열어주세요.');
+    });
+  })();
 
   /* 탭에 잔액 미리보기 */
   window.__tabBal = function(text){
