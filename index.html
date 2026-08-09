@@ -1340,6 +1340,7 @@
 
   load();
   el('lgRate').value = data.rate;
+  window.__lgRefresh = render;   /* 탭 스크립트가 나중에 로드되므로 다시 그릴 수 있게 */
 
   (function(){
     var m = /[#&]b=([A-Za-z0-9\-_]+)/.exec(location.hash);
@@ -1399,6 +1400,7 @@
     var el = document.getElementById('tabBal');
     if(el) el.textContent = text;
   };
+  if(window.__lgRefresh) window.__lgRefresh();   /* 첫 로드 때 잔액 미리보기 채우기 */
 })();
 
 /* 오프라인에서도 열리도록 페이지를 캐시 (https 에서만 동작) */
